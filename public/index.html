@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="./images/logoo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Modern PWA Information App" />
+    <link rel="apple-touch-icon" href="./images/logoo.png" />
+    <link rel="manifest" href="./manifest.json" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Areca Nut Awareness</title>
+  </head>
+  <body>
+    
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <style type="text/css">
+      .add-to {
+        background-color: rgba(25, 25, 25, 0.85); 
+        width: 100%;
+      } 
+      .add-to-btn {
+        background-color: rgba(25, 25, 25, 0.85); 
+        color: white; 
+        border: none; 
+        outline:none; 
+        font-weight: bold; 
+        width: 100%; 
+        font-size: larger;
+        height: 70px;
+      } 
+    </style>
+        <div id="root"></div>
+
+      
+        
+       <div class="add-to">
+				<button class="add-to-btn"  data-amplify-analytics-on='click'
+        data-amplify-analytics-name='click'
+        data-amplify-analytics-attrs='attr1:attr1_value,attr2:attr2_value'>Download Here</button>
+			</div>
+  <script data-ad-client="ca-pub-5315869280880311" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+   
+      <script>
+        var sendEvent = function() {
+            Analytics.record({
+                name: 'click',
+                attributes: {
+                    attr: 'attr', // the default ones
+                    attr1: attr1_value, // defined in the button component
+                    attr2: attr2_value, // defined in the button component
+                }
+            });
+        }
+    </script>
+    <button onclick="sendEvent()"/>
+     
+
+    <script type="text/javascript">
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/serviceworker.js').then(function(registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, function(err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
+    
+      let deferredPrompt;
+      var div = document.querySelector('.add-to');
+      var button = document.querySelector('.add-to-btn');
+      div.style.display = 'none';
+    
+      window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        div.style.display = 'block';
+    
+        button.addEventListener('click', (e) => {
+        // hide our user interface that shows our A2HS button
+        div.style.display = 'none';
+        // Show the prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice
+          .then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the A2HS prompt');
+            } else {
+              console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+          });
+      });
+      });
+    
+    </script>
+  </body>
+</html>
+
+
+
